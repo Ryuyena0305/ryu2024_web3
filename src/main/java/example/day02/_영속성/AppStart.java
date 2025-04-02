@@ -1,4 +1,4 @@
-package example._과제;
+package example.day02._영속성;
 
 
 import org.springframework.boot.SpringApplication;
