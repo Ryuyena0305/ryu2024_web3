@@ -1,6 +1,6 @@
-package example.day04.model.dto;
+package example.day04.fix.model.dto;
 
-import example.day04.model.entity.FixEntity;
+import example.day04.fix.model.entity.FixEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

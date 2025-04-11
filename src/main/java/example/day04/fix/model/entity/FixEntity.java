@@ -1,14 +1,12 @@
-package example.day04.model.entity;
+package example.day04.fix.model.entity;
 
-import example.day04.model.dto.BaseTime;
-import example.day04.model.dto.FixDto;
+import example.day04.fix.model.dto.BaseTime;
+import example.day04.fix.model.dto.FixDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name="fix")

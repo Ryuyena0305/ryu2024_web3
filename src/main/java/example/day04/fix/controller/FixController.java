@@ -1,8 +1,7 @@
-package example.day04.controller;
+package example.day04.fix.controller;
 
-import example.day04.model.dto.FixDto;
-import example.day04.service.FixService;
-import lombok.Getter;
+import example.day04.fix.model.dto.FixDto;
+import example.day04.fix.service.FixService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

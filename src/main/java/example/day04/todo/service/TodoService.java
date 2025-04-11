@@ -1,18 +1,14 @@
-package example.day04.service;
+package example.day04.todo.service;
 
-import example.day04.model.dto.TodoDto;
-import example.day04.model.entity.TodoEntity;
-import example.day04.model.repository.TodoRepository;
+import example.day04.todo.model.dto.TodoDto;
+import example.day04.todo.model.entity.TodoEntity;
+import example.day04.todo.model.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +20,7 @@ import java.util.stream.Collectors;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-    public TodoDto todoSave( TodoDto todoDto ){
+    public TodoDto todoSave(TodoDto todoDto ){
         // 1. dto 를 entity 변환하기
         TodoEntity todoEntity = todoDto.toEntity();
         // 2. entity를 save(영속화/db레코드 매칭/등록) 한다.
@@ -55,11 +51,11 @@ public class TodoService {
     }
 
     // 3. 개별 조회
-    public TodoDto todoFindById( int id ){
+    public TodoDto todoFindById(int id ){
         // [방법1] 일반적인 =========================================//
         // 1. pk( 식별번호 ) 이용한 entity 조회하기, .findById()
         // Optional 클래스 : null 제어하는 메소드들을 제공하는 클래스
-        Optional< TodoEntity > optional
+        Optional<TodoEntity> optional
                 = todoRepository.findById( id );
         // 2. 조회한 결과가 존재하면 , .isPresent()
         if( optional.isPresent() ){
@@ -80,10 +76,10 @@ public class TodoService {
     } // f end
 
     // 4. 개별 수정 + @Transactional
-    public TodoDto todoUpdate( TodoDto todoDto ){
+    public TodoDto todoUpdate(TodoDto todoDto ){
         // [방법1] 일반적인 =========================================//
         // 1. 수정할 id 로 엔티티를 조회한다.
-        Optional< TodoEntity > optional
+        Optional<TodoEntity> optional
                 = todoRepository.findById( todoDto.getId()  );
         // 2. 존재하면 수정 하고 존재하지 않으면 null 반환 , .isPresent()
         if( optional.isPresent() ){
@@ -130,7 +126,7 @@ public class TodoService {
 //                .orElse( false );
     }
     // 6. 전체조회( + 페이징처리 )
-    public List<TodoDto> todoFindByPage( int page , int size ){
+    public List<TodoDto> todoFindByPage(int page , int size ){
         // 1. PageRequest 클래스 이용한 페이징처리 설정
         // PageRequest.of( 조회할페이지번호 , 자료개수 , 정렬[선택]  )
         // - 조회할페이지번호는 1페이지가 0 부터 시작
@@ -141,7 +137,7 @@ public class TodoService {
         PageRequest pageRequest =  PageRequest.of( page-1 ,  size , Sort.by( Sort.Direction.DESC , "id" ) );
         // [방법2]. 2. stream 이용한 조회 리스트를 dto로 변환한다.
         return todoRepository.findAll( pageRequest ).stream()
-                .map( TodoEntity :: toDto )
+                .map( TodoEntity:: toDto )
                 .collect( Collectors.toList() );
         /*
         // [방법1]
@@ -170,7 +166,7 @@ public class TodoService {
                 .collect(Collectors.toList());
     }
     //8. 제목 검색 조회2(입력한 값이 *포함*된 제목 조회)
-    public List<TodoDto> search2( String title ){
+    public List<TodoDto> search2(String title ){
         // [1 쿼리메소드 ]. JPA 리포지토리에서 내가 만든 추상메소드 사용한다.
 //        return todoRepository.findByTitleContaining( title )
 //                .stream().map( TodoEntity::toDto )

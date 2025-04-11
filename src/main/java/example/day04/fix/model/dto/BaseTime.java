@@ -1,4 +1,4 @@
-package example.day04.model.dto;
+package example.day04.fix.model.dto;
 
 
 import jakarta.persistence.EntityListeners;

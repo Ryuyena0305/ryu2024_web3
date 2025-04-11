@@ -1,6 +1,6 @@
-package example.day04.model.repository;
+package example.day04.todo.model.repository;
 
-import example.day04.model.entity.TodoEntity;
+import example.day04.todo.model.entity.TodoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TodoRepository extends JpaRepository<TodoEntity , Integer> {
+public interface TodoRepository extends JpaRepository<TodoEntity, Integer> {
 
     // JPA Repository
     // 1. .save() 2.findById() 3.findAll() 4.deleteById() 등등 미리 만들어진 CRUD 메소드 제공
@@ -23,7 +23,7 @@ public interface TodoRepository extends JpaRepository<TodoEntity , Integer> {
     // findByTitle : title 필드를 select(조회) 한다. * 주의할점 : <카멜표기법> 과 메소드 명명 규칙
     // ( String title ) : 조회 조건
     // mybatis : select * from todo where title = ${ title }
-    List<TodoEntity> findByTitleContaining( String keyword );
+    List<TodoEntity> findByTitleContaining(String keyword );
     // mybatis : select * from todo where title like %${title}%
 
     // 3. 네이티브쿼리( *SQL 직접 작성* ) //===================================================
@@ -32,10 +32,10 @@ public interface TodoRepository extends JpaRepository<TodoEntity , Integer> {
     //      -> Query 는 select 위한 어노테이션 이므로 insert,update,delete 할 경우에는 @Modifying 같이 사용한다.
     // SQL 문의 매개변수를 작성시에는 :매개변수명 작성하여 매개변수를 대입할 수 있다.
     @Query( value = "select * from todo where title = :title " , nativeQuery = true )
-    List<TodoEntity> findByTitleNative( String title );
+    List<TodoEntity> findByTitleNative(String title );
     // List<TodoEntity> : 조회 결과를 List 타입
     // findByTitleNative : 규칙이 없으므로 아무거나
     // ( String title ) : 조회 조건으로 SQL문법의 매개변수
     @Query( value = "select * from todo where title like %:keyword% ",nativeQuery = true )
-    List<TodoEntity> findByTitleNativeSearch( String keyword );
+    List<TodoEntity> findByTitleNativeSearch(String keyword );
 }
