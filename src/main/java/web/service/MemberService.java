@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import web.model.dto.MemberDto;
 import web.model.entity.MemberEntity;
 import web.model.repository.MemberEntityRepository;
+import web.util.JWTUtil;
 
 @Service // Spring MVC2 service
 @RequiredArgsConstructor
@@ -32,4 +33,39 @@ public class MemberService {
         if( saveEntity.getMno() >= 1 ){ return true;}
         return false;
     }
+
+    //[2] 로그인
+
+    private final JWTUtil jwtUtil;
+    public String login( MemberDto memberDto){
+        // 1. 이메일(아이디)를 DB에서 조회하여 엔티티찾기
+        MemberEntity memberEntity =
+        memberEntityRepository.findByMemail(memberDto.getMemail());
+
+        // 2. 조회된 엔티티가 없으면
+        if(memberEntity == null){ return null; } // 로그인 실패
+        // 3. 조회된 엔티티의 비밀번호 검증 .matches(입력받은 패스워드, 암호화된 패스워드)
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); //BCrypyt객체 생성
+        boolean inMatch =
+        passwordEncoder.matches(memberDto.getMpwd() , memberEntity.getMpwd());
+
+        // 4. 비밀번호 검증 실패이면
+        if(inMatch == false) return null; // 로그인 실패
+
+        // 5. 비밀번호 검증 성공이면 Token 발급
+        String token
+                = jwtUtil.createToken( memberEntity.getMemail() );
+        System.out.println( ">>발급된 token : " + token );
+        return token;
+    }
+
+    public MemberDto info(String token){
+        String memail = jwtUtil.validateToken(token);
+        if (memail == null) return null;
+        MemberEntity memberEntity = memberEntityRepository.findByMemail(memail);
+        if (memberEntity == null) return null;
+        return memberEntity.toDto();
+    }
+
+
 }

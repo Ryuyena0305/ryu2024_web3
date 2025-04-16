@@ -16,8 +16,32 @@ import web.service.MemberService;
 public class MemberController {
     private final MemberService memberService;
 
+    // [1]회원가입
+    //{"memail":"bear","mpwd":"1234","mname":"mumu"}
     @PostMapping("/signup")
     public boolean signUp(@RequestBody MemberDto memberDto){
         return memberService.signUp(memberDto);
     }
+
+    // [2]로그인
+    //{"memail":"bear","mpwd":"1234"}
+    //eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJiZWFyIiwiaWF0IjoxNzQ0NzcwNjcyLCJleHAiOjE3NDQ4NTcwNzJ9.7GbKB0WYxC4N6Y9Ybo0WLY1C_3kNg9RvRex4DNKSn3M
+    @PostMapping("/login")
+    public String login(@RequestBody MemberDto memberDto){
+        return memberService.login(memberDto);
+    }
+    
+    // [3]로그인된 회원 검증/ 내정보 조회
+    @GetMapping("/info")
+    //@RequestHeader : HTTP 헤더 정보를 매핑하는 어노테이션, JWT정보는 HTTP 헤더에 담을 수 있다.
+        //Authorization : 인증 속성, { Authorization : token값}
+    //@RequestParam : HTTP 헤더의 쿼리스트링 매핑하는 어노테이션
+    //@RequestBody : HTTP 본문의 객체를 매핑하는 어노테이션
+    //@PathVariable : HTTP 헤더의 경로 값 매핑하는 어노테이션
+    public MemberDto info(@RequestHeader("Authorization") String token){
+        System.out.println(token);
+        return memberService.info(token);
+    }
+        
+
 }
