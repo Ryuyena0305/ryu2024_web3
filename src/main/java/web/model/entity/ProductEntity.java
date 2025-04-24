@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity@Table(name = "product")
 @Getter @Setter @Builder @ToString @NoArgsConstructor @AllArgsConstructor // 롬복
-public class ProductEntity extends BaseTime{
+public class ProductEntity extends BaseTime {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY )
     private long pno ; // 제품 식별번호
@@ -46,13 +46,3 @@ public class ProductEntity extends BaseTime{
 
 
 }
-
-
-
-
-
-
-
-
-
-
